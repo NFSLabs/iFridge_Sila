@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Feature SiLA2Version="0.2" FeatureVersion="1.0" MaturityLevel="Verified" Originator="de.igripper"
+         xmlns="http://www.sila-standard.org"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.sila-standard.org https://gitlab.com/SiLA2/sila_base/raw/master/schema/FeatureDefinition.xsd">
+    <Identifier>IFridge</Identifier>
+    <DisplayName>IFridge</DisplayName>
+    <Description>Opens or closes a door with a SiLABoX and an iFridge attached</Description>
+    <Command>
+        <Identifier>OpenDoor</Identifier>
+        <DisplayName>Open door</DisplayName>
+        <Description>Opens the door</Description>
+        <Observable>No</Observable>
+        <Response>
+            <Identifier>Status</Identifier>
+            <DisplayName>Status</DisplayName>
+            <Description>Reports if the door was opened or an error occurred</Description>
+            <DataType>
+                <Basic>String</Basic>
+            </DataType>
+        </Response>
+    </Command>
+    <Command>
+        <Identifier>CloseDoor</Identifier>
+        <DisplayName>Closes the door</DisplayName>
+        <Description>closes the door</Description>
+        <Observable>No</Observable>
+        <Response>
+            <Identifier>Status</Identifier>
+            <DisplayName>Status</DisplayName>
+            <Description>Reports if the door was closed or an error occurred</Description>
+            <DataType>
+                <Basic>String</Basic>
+            </DataType>
+        </Response>
+     </Command>
+
+    <Command>
+        <Identifier>DeviceStatus</Identifier>
+        <DisplayName>Device Status</DisplayName>
+        <Description>Gets the current status of the device</Description>
+        <Observable>No</Observable>
+        <Response>
+            <Identifier>Status</Identifier>
+            <DisplayName>Status</DisplayName>
+            <Description>Status of the iFridge</Description>
+            <DataType>
+                <Basic>String</Basic>
+            </DataType>
+        </Response>
+    </Command>
+
+</Feature>

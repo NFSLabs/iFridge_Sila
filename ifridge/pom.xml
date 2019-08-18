@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.sila-standard.sila_java</groupId>
+        <artifactId>servers</artifactId>
+        <version>0.0.3-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.sila-standard.sila_java.servers</groupId>
+    <artifactId>ifridge</artifactId>
+    <version>0.0.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
+<dependencies>
+    <!-- https://mvnrepository.com/artifact/com.pi4j/pi4j-core -->
+    <dependency>
+        <groupId>com.pi4j</groupId>
+        <artifactId>pi4j-core</artifactId>
+        <version>1.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.pi4j/pi4j-gpio-extension -->
+    <dependency>
+        <groupId>com.pi4j</groupId>
+        <artifactId>pi4j-gpio-extension</artifactId>
+        <version>1.2</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/de.pi3g.pi/pi-oled -->
+    <dependency>
+        <groupId>de.pi3g.pi</groupId>
+        <artifactId>pi-oled</artifactId>
+        <version>1.0</version>
+    </dependency>
+
+</dependencies>
+    <build>
+    <!-- Wagon extension to deploy to raspberry-->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.sila-standard.sila_java.library</groupId>
+                <artifactId>maven_plugin</artifactId>
+                <version>0.0.3-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <protobufVersion>${protobuf.version}</protobufVersion>
+                            <grpcVersion>${grpc.version}</grpcVersion>
+                            <features>
+                                <param>${basedir}/src/main/resources/IFridge.xml</param>
+    							<param>${basedir}/src/main/resources/SimulationController.sila.xml</param>
+                            </features>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>sila_java.servers.ifridge.IFridgeServer</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <dependencies>
+                    <dependency>
+                        <groupId>commons-net</groupId>
+                        <artifactId>commons-net</artifactId>
+                        <version>3.5</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-commons-net</artifactId>
+                        <version>1.10.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.jcraft</groupId>
+                        <artifactId>jsch</artifactId>
+                        <version>0.1.54</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-jsch</artifactId>
+                        <version>1.10.0</version>
+                    </dependency>
+                </dependencies>
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>scp-to-remote</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <!--
+
+                            <target name="install">
+
+                                                               <echo>">>> Starting ${raspberrypi}:${raspberryfolder}/${jar.filename} in debug mode"</echo>
+                                                               <property name="raspberrypi" value="192.168.178.41" />
+                                                               <property name="raspberryfolder" value="/home/sila/sila_node/WebUI/upload" />
+                                                               <property name="username" value="sila" />
+                                                               <property name="password" value="silamaster" />
+                                                               <scp localFile="${project.basedir}\target\siladoor-exec.jar"
+                                                                    remoteToFile="sila@192.168.178.43:/home/sila/sila_node/WebUI/upload" verbose="true"
+                                                                    password="silamaster" trust="true">
+                                                               </scp>
+
+                                                               <sshexec
+                                                                   host="${raspberrypi}"
+                                                                   username="${username}"
+                                                                   password="${password}"
+                                                                   trust="true"
+                                                                   failonerror="true"
+                                                                   command="java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=y -jar /home/sila/sila_node/WebUI/upload/Door-exec.jar -n wlan0" />
+
+                            </target>     -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,4 @@
+{
+  "name": "SilaDoor Server",
+  "uuid": "ba726171-3e5c-4236-bdf3-5b05b69f6d1c"
+}
